@@ -1,5 +1,6 @@
 var React = require('react');
 var mui = require('material-ui');
+var $ = require('jquery');
 
 var ThemeManager = new mui.Styles.ThemeManager();
 var Card = mui.Card;
@@ -20,9 +21,9 @@ var MyList = React.createClass({
         }.bind(this));
     },
     render: function() {
-        console.log(this.state.oneNews);
+        //console.log(this.state.oneNews);
         return (
-            <CardHeader title="Title" subtitle="lalalal" avatar={<Avatar>A</Avatar>} />
+            <CardHeader title={this.state.oneNews.title} subtitle={this.state.oneNews.url} />
         );
     }
 });
@@ -30,7 +31,7 @@ var MyList = React.createClass({
 var MyCard = React.createClass({
     getInitialState: function(){
       return ({
-          ids : [1234]
+          ids : ["9845885", "9845870"]
       });
     },
     childContextTypes: {
@@ -44,19 +45,12 @@ var MyCard = React.createClass({
     },
 
     render: function() {
-        var i;
-        if(this.props.ids.length == 0){
-            i = this.state.ids;
-        }
+        console.log("a;a;;a");
         return (
             <Card>
             {
-                i.map(function(a){
-                    console.log(a);
-                    //return (<MyList id={a} />);
-                    return (
-                        <CardHeader title="{aaaaa}" subtitle="kakakak" />
-                    );
+                this.state.ids.map(function(a){
+                    return (<MyList id={a} />);
                 })
             }
             </Card>
@@ -64,12 +58,11 @@ var MyCard = React.createClass({
         /*
         return (
             <Card>
-                <CardHeader
-                title="Title"
-                subtitle="Subtitle"
-                />
+                <MyList id={this.state.ids[0]}/>
+                <MyList id={this.state.ids[1]}/>
             </Card>
-        );//*/
+        );
+        */
     }
 });
 
