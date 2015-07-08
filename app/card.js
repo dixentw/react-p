@@ -21,7 +21,6 @@ var MyList = React.createClass({
         }.bind(this));
     },
     render: function() {
-        //console.log(this.state.oneNews);
         return (
             <CardHeader title={this.state.oneNews.title} subtitle={this.state.oneNews.url} />
         );
@@ -46,23 +45,21 @@ var MyCard = React.createClass({
 
     render: function() {
         console.log("a;a;;a");
-        return (
-            <Card>
-            {
-                this.state.ids.map(function(a){
-                    return (<MyList id={a} />);
-                })
-            }
-            </Card>
-        );
-        /*
-        return (
-            <Card>
-                <MyList id={this.state.ids[0]}/>
-                <MyList id={this.state.ids[1]}/>
-            </Card>
-        );
-        */
+        console.log(this.props.ids.length);
+        if(this.props.ids.length == 0){
+            return (<MyList key={"9845885"} id={"9845885"} />);
+        }else{
+            return (
+                <Card>
+                {
+                    this.props.ids.map(function(a){
+                        return (<MyList key={a} id={a} />);
+                    })
+                }
+                </Card>
+            );
+        }
+
     }
 });
 
