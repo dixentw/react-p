@@ -11,7 +11,11 @@ var config = {
     module: {
         loaders: [{
             test: /\.js$/,
-            loaders: ['babel']
+            exclude: /node_modules/,
+            loader: "babel",
+            query: {
+                presets:['react','es2015']
+            }
         }]
     }
 };

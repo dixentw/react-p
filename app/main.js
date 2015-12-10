@@ -6,7 +6,7 @@ var React = require('react');
 //var TestOne = require('./TestOne.js');
 //var TestTwo = require('./TestTwo.js');
 var dataa = require('./lalala.js');
-var MyBtn = require('./myBtn.js');
+//var MyBtn = require('./myBtn.js');
 var MyCard = require('./card.js');
 var $ = require('jquery');
 

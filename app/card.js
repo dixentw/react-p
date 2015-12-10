@@ -1,11 +1,9 @@
 var React = require('react');
-var mui = require('material-ui');
 var $ = require('jquery');
 
-var ThemeManager = new mui.Styles.ThemeManager();
-var Card = mui.Card;
-var CardHeader = mui.CardHeader;
 
+const Card = require('material-ui/lib/card/card');
+const CardHeader = require('material-ui/lib/card/card-header');
 
 var MyList = React.createClass({
     getInitialState: function() {
@@ -32,15 +30,6 @@ var MyCard = React.createClass({
       return ({
           ids : ["9845885", "9845870"]
       });
-    },
-    childContextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-
-    getChildContext: function() {
-        return {
-            muiTheme: ThemeManager.getCurrentTheme()
-        };
     },
 
     render: function() {
