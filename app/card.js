@@ -1,9 +1,7 @@
-var React = require('react');
-var $ = require('jquery');
-
-
-const Card = require('material-ui/lib/card/card');
-const CardHeader = require('material-ui/lib/card/card-header');
+import React from 'react';
+import Card from 'material-ui/lib/card/card';
+import CardHeader from 'material-ui/lib/card/card-header';
+import $ from 'jquery'
 
 var MyList = React.createClass({
     getInitialState: function() {
@@ -33,7 +31,6 @@ var MyCard = React.createClass({
     },
 
     render: function() {
-        console.log("a;a;;a");
         console.log(this.props.ids.length);
         if(this.props.ids.length == 0){
             return (<MyList key={"9845885"} id={"9845885"} />);
