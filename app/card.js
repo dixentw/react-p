@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from 'material-ui/lib/card/card';
-import CardHeader from 'material-ui/lib/card/card-header';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardTitle from 'material-ui/lib/card/card-title';
 import $ from 'jquery'
 
 var MyList = React.createClass({
@@ -16,9 +17,12 @@ var MyList = React.createClass({
             }
         }.bind(this));
     },
+    handleClick: function(event) {
+      alert(this.state.oneNews.url);
+    },
     render: function() {
         return (
-            <CardHeader title={this.state.oneNews.title} subtitle={this.state.oneNews.url} />
+            <CardTitle title={this.state.oneNews.title} subtitle={this.state.oneNews.url} onClick={this.handleClick}/>
         );
     }
 });
@@ -26,26 +30,20 @@ var MyList = React.createClass({
 var MyCard = React.createClass({
     getInitialState: function(){
       return ({
-          ids : ["9845885", "9845870"]
+          ids : []
       });
     },
 
     render: function() {
-        console.log(this.props.ids.length);
-        if(this.props.ids.length == 0){
-            return (<MyList key={"9845885"} id={"9845885"} />);
-        }else{
-            return (
-                <Card>
-                {
-                    this.props.ids.map(function(a){
-                        return (<MyList key={a} id={a} />);
-                    })
-                }
-                </Card>
-            );
-        }
-
+        return (
+            <Card>
+            {
+                this.props.ids.map(function(a){
+                    return (<MyList key={a} id={a} />);
+                })
+            }
+            </Card>
+        );
     }
 });
 
