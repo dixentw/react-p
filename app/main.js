@@ -9,16 +9,29 @@ import LightRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
 import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar'
 import IconButton from 'material-ui/lib/icon-button';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import Menu from 'material-ui/lib/menus/menu';
+
+import injectTapEventPlugin from 'react-tap-event-plugin/src/injectTapEventPlugin';
+injectTapEventPlugin();
 
 
 var dataa = require('./lalala.js');
 var MyCard = require('./card.js');
 var $ = require('jquery');
 
-var Main2 = React.createClass({
+const style = {
+  marginRight: 32,
+  marginBottom: 32,
+  float: 'left',
+  position: 'relative',
+  zIndex: 0,
+};
+
+var Main = React.createClass({
     childContextTypes: {
         muiTheme: React.PropTypes.object,
     },
@@ -52,14 +65,12 @@ var Main2 = React.createClass({
             <div>
                 <AppBar
                     title="HackerNews"
+                    showMenuIconButton = {false}
                     iconElementRight={
-                        <IconMenu iconButtonElement={
-                            <IconButton><MoreVertIcon /></IconButton>
-                        }>
-                            <MenuItem primaryText="Refresh" />
-                            <MenuItem primaryText="Help" />
-                            <MenuItem primaryText="Sign out" />
-                        </IconMenu>
+                      <IconMenu iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}>
+                        <MenuItem primaryText="Latest" />
+                        <MenuItem primaryText="Hottest" />
+                      </IconMenu>
                     }
                 />
                 <MyCard ids={this.state.ids} />
@@ -68,4 +79,4 @@ var Main2 = React.createClass({
     }
 });
 
-ReactDOM.render(<Main2 />, document.getElementById('mainAAA'));
+ReactDOM.render(<Main />, document.getElementById('main'));

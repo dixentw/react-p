@@ -2,6 +2,7 @@ import React from 'react';
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
 import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
 import $ from 'jquery'
 
 var MyList = React.createClass({
@@ -18,11 +19,27 @@ var MyList = React.createClass({
         }.bind(this));
     },
     handleClick: function(event) {
-      alert(this.state.oneNews.url);
+      console.log(this.state.oneNews);
+      this.setState({"append": "append by click!!!!"});
+      /*
+      if(this.state.oneNews.descendants != 0){
+          var allComment = "";
+          this.state.oneNews.kids.forEach(function(v){
+            $.get("https://hacker-news.firebaseio.com/v0/item/"+v+".json", function(result){
+              allComment += result.text + "<br>";
+            });
+          });
+          this.setState({"comments" : allComment})
+      }*/
+      //window.open(this.state.oneNews.url);
     },
     render: function() {
         return (
-            <CardTitle title={this.state.oneNews.title} subtitle={this.state.oneNews.url} onClick={this.handleClick}/>
+            <CardTitle title={this.state.oneNews.title} onClick={this.handleClick}>
+              <CardText expandable={true}>
+                { this.state.oneNews.text} | {this.state.append}
+              </CardText>
+            </CardTitle>
         );
     }
 });
