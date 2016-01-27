@@ -58,11 +58,21 @@ var Main = React.createClass({
     handleClick : function(){
         this.setState({"currentView": "board"});
     },
+    handleBackClick : function(){
+        if(this.state.currentView=="article"){
+            this.setState({"currentView": "board"});
+        }else if(this.state.currentView=="board"){
+            console.log("shold be here");
+            this.setState({"currentView": "hot"});
+        }
+    },
     handleBoardClick : function(ext){
         console.log("hit handleBoardClick !!!" + ext);
+        this.setState({"currentView" : "board", "boardLink" : ext});
     },
     handleArticleClick : function(ext){
         console.log("hit handleArticleClick !!!" + ext);
+        this.setState({"currentView" : "article", "articleLink" : ext});
     },
     render: function() {
         var mainView, leftIcon;
@@ -70,8 +80,8 @@ var Main = React.createClass({
             mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
             leftIcon = null;
         }else{
-            mainView = <ArticleList link="/bbs/Gossiping/index.html" clickEvt={this.handleArticleClick} />
-            leftIcon = <IconButton><BackArrow /></IconButton>
+            mainView = <ArticleList link={this.state.boardLink} clickEvt={this.handleArticleClick} />
+            leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
         }
         return (
             <div>
