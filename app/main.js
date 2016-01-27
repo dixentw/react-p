@@ -1,22 +1,22 @@
-/* main.js */
-
 'use strict';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import LightRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
+import DarkRawTheme from 'material-ui/lib/styles/raw-themes/dark-raw-theme';
 import Colors from 'material-ui/lib/styles/colors';
-import AppBar from 'material-ui/lib/app-bar'
+import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import BackArrow from 'material-ui/lib/svg-icons/navigation/arrow-back'
+import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
+import FlatButton from 'material-ui/lib/flat-button';
+import injectTapEventPlugin from 'react-tap-event-plugin/src/injectTapEventPlugin';
+injectTapEventPlugin();
+import $ from 'jquery';
 
-
-var dataa = require('./lalala.js');
-var MyCard = require('./card.js');
-var $ = require('jquery');
+// custom component
+import Boards from './boards.js';
+import ArticleList from './alist.js'
 
 var Main2 = React.createClass({
     childContextTypes: {
@@ -24,8 +24,9 @@ var Main2 = React.createClass({
     },
     getInitialState: function() {
         return {
-            ids :  [],
-            muiTheme: ThemeManager.getMuiTheme(LightRawTheme)
+            muiTheme: ThemeManager.getMuiTheme(DarkRawTheme),
+            ids : [],
+            currentView : "hot" // {"hot", "board", "article"}
         };
     },
     getChildContext() {
@@ -39,30 +40,40 @@ var Main2 = React.createClass({
         });
         this.setState({muiTheme: newMuiTheme});
     },
-
     componentDidMount: function() {
-        $.get("https://hacker-news.firebaseio.com/v0/newstories.json", function(result) {
+        $.get("http://130.211.249.49:8080/api/hotboard", function(result) {
             if (this.isMounted()) {
                 this.setState({"ids" : result});
             }
         }.bind(this));
     },
+    handleClick : function(){
+        this.setState({"currentView": "board"});
+    },
+    handleBoardClick : function(ext){
+        console.log("hit handleBoardClick !!!" + ext);
+    },
+    handleArticleClick : function(ext){
+        console.log("hit handleArticleClick !!!" + ext);
+    },
     render: function() {
+        var mainView, leftIcon;
+        if(this.state.currentView=="hot"){
+            mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
+            leftIcon = null;
+        }else{
+            mainView = <ArticleList link="/bbs/Gossiping/index.html" clickEvt={this.handleArticleClick} />
+            leftIcon = <IconButton><BackArrow /></IconButton>
+        }
         return (
             <div>
                 <AppBar
-                    title="HackerNews"
-                    iconElementRight={
-                        <IconMenu iconButtonElement={
-                            <IconButton><MoreVertIcon /></IconButton>
-                        }>
-                            <MenuItem primaryText="Refresh" />
-                            <MenuItem primaryText="Help" />
-                            <MenuItem primaryText="Sign out" />
-                        </IconMenu>
-                    }
+                    iconElementLeft={leftIcon}
+                    title="PTT browser"
+                    showMenuIconButton={leftIcon!=null}
                 />
-                <MyCard ids={this.state.ids} />
+                <FlatButton label="test toggle" primary={true} onTouchTap={this.handleClick}/>
+                {mainView}
             </div>
         );
     }
