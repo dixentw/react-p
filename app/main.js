@@ -17,6 +17,7 @@ import $ from 'jquery';
 // custom component
 import Boards from './boards.js';
 import ArticleList from './alist.js'
+import Article from './article.js'
 
 const style = {
   marginRight: 32,
@@ -55,9 +56,6 @@ var Main = React.createClass({
             }
         }.bind(this));
     },
-    handleClick : function(){
-        this.setState({"currentView": "board"});
-    },
     handleBackClick : function(){
         if(this.state.currentView=="article"){
             this.setState({"currentView": "board"});
@@ -79,8 +77,11 @@ var Main = React.createClass({
         if(this.state.currentView=="hot"){
             mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
             leftIcon = null;
-        }else{
+        }else if(this.state.currentView=="board"){
             mainView = <ArticleList link={this.state.boardLink} clickEvt={this.handleArticleClick} />
+            leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
+        }else if(this.state.currentView=="article"){
+            mainView = <Article link={this.state.articleLink} />
             leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
         }
         return (
@@ -90,7 +91,6 @@ var Main = React.createClass({
                     title="PTT browser"
                     showMenuIconButton={leftIcon!=null}
                 />
-                <FlatButton label="test toggle" primary={true} onTouchTap={this.handleClick}/>
                 {mainView}
             </div>
         );
