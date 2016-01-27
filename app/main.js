@@ -18,7 +18,15 @@ import $ from 'jquery';
 import Boards from './boards.js';
 import ArticleList from './alist.js'
 
-var Main2 = React.createClass({
+const style = {
+  marginRight: 32,
+  marginBottom: 32,
+  float: 'left',
+  position: 'relative',
+  zIndex: 0,
+};
+
+var Main = React.createClass({
     childContextTypes: {
         muiTheme: React.PropTypes.object,
     },
@@ -79,4 +87,4 @@ var Main2 = React.createClass({
     }
 });
 
-ReactDOM.render(<Main2 />, document.getElementById('mainAAA'));
+ReactDOM.render(<Main />, document.getElementById('main'));
