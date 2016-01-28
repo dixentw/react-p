@@ -65,11 +65,9 @@ var Main = React.createClass({
         }
     },
     handleBoardClick : function(ext){
-        console.log("hit handleBoardClick !!!" + ext);
         this.setState({"currentView" : "board", "boardLink" : ext});
     },
     handleArticleClick : function(ext){
-        console.log("hit handleArticleClick !!!" + ext);
         this.setState({"currentView" : "article", "articleLink" : ext});
     },
     render: function() {

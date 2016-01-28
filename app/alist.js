@@ -1,4 +1,6 @@
+'use strict';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import $ from 'jquery';
@@ -10,12 +12,26 @@ var BoardList = React.createClass({
         };
     },
     componentDidMount : function(){
-        $.get("http://130.211.249.49:8080/api/articlelist/" + encodeURIComponent(this.props.link) + "/0", function(result) {
+        var link = encodeURIComponent(this.props.link);
+        var pageCount = 0;
+        $(document).on("scroll", function(){
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                console.log("another hit bottom!!!");
+                pageCount++;
+                $.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, function(result) {
+                    if (this.isMounted()) {
+                        var a = this.state.articles;
+                        var theNew = a.concat(result);
+                        this.setState({"articles" : theNew});
+                    }
+                }.bind(this));
+            }
+        }.bind(this));
+        $.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, function(result) {
             if (this.isMounted()) {
                 this.setState({"articles" : result});
             }
         }.bind(this));
-
     },
     render: function() {
         var that = this;
