@@ -35,7 +35,8 @@ var Main = React.createClass({
         return {
             muiTheme: ThemeManager.getMuiTheme(DarkRawTheme),
             ids : [],
-            currentView : "hot" // {"hot", "board", "article"}
+            currentView : "hot", // {"hot", "board", "article"}
+            listHeight : 0
         };
     },
     getChildContext() {
@@ -60,15 +61,15 @@ var Main = React.createClass({
         if(this.state.currentView=="article"){
             this.setState({"currentView": "board"});
         }else if(this.state.currentView=="board"){
-            console.log("shold be here");
             this.setState({"currentView": "hot"});
         }
     },
     handleBoardClick : function(ext){
         this.setState({"currentView" : "board", "boardLink" : ext});
     },
-    handleArticleClick : function(ext){
-        this.setState({"currentView" : "article", "articleLink" : ext});
+    handleArticleClick : function(ext, curHeight){
+        console.log(curHeight);
+        this.setState({"currentView" : "article", "articleLink" : ext, "listHeight" : curHeight});
     },
     render: function() {
         var mainView, leftIcon;
@@ -76,7 +77,7 @@ var Main = React.createClass({
             mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
             leftIcon = null;
         }else if(this.state.currentView=="board"){
-            mainView = <ArticleList link={this.state.boardLink} clickEvt={this.handleArticleClick} />
+            mainView = <ArticleList link={this.state.boardLink} top={this.state.listHeight} clickEvt={this.handleArticleClick} />
             leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
         }else if(this.state.currentView=="article"){
             mainView = <Article link={this.state.articleLink} />
@@ -95,4 +96,4 @@ var Main = React.createClass({
     }
 });
 
-ReactDOM.render(<Main />, document.getElementById('main'));
+ReactDOM.render(<Main />, document.getElementById('mainAAA'));

@@ -6,9 +6,13 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import $ from 'jquery';
 
 var BoardList = React.createClass({
+    //custom function
+    recordCurrentHeight : function(){
+        return $("body").scrollTop();
+    },
     getInitialState: function() {
         return {
-            articles : []
+            articles : [],
         };
     },
     componentDidMount : function(){
@@ -16,7 +20,7 @@ var BoardList = React.createClass({
         var pageCount = 0;
         $(document).on("scroll", function(){
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                console.log("another hit bottom!!!");
+                console.log("hit bottom!!!");
                 pageCount++;
                 $.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, function(result) {
                     if (this.isMounted()) {
@@ -33,6 +37,9 @@ var BoardList = React.createClass({
             }
         }.bind(this));
     },
+    componentWillUnmount : function(){
+        $(document).off('scroll');
+    },
     render: function() {
         var that = this;
         return (
@@ -43,7 +50,7 @@ var BoardList = React.createClass({
                         <ListItem
                             primaryText={a.title}
                             secondaryText={a.author}
-                            onTouchTap={that.props.clickEvt.bind(null, a.link)}
+                            onTouchTap={that.props.clickEvt.bind(null, a.link, that.recordCurrentHeight())}
                             key={i}
                         />
                     )
