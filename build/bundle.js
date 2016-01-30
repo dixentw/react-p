@@ -123,6 +123,7 @@
 	var Main = _react2.default.createClass({
 	    displayName: 'Main',
 
+	    pageCount: 0,
 	    childContextTypes: {
 	        muiTheme: _react2.default.PropTypes.object
 	    },
@@ -165,6 +166,7 @@
 	    },
 	    handleArticleClick: function handleArticleClick(ext, curHeight) {
 	        console.log(curHeight);
+	        this.pageCount = curHeight;
 	        this.setState({ "currentView": "article", "articleLink": ext, "listHeight": curHeight });
 	    },
 	    render: function render() {
@@ -173,7 +175,7 @@
 	            mainView = _react2.default.createElement(_boards2.default, { ids: this.state.ids, clickEvt: this.handleBoardClick });
 	            leftIcon = null;
 	        } else if (this.state.currentView == "board") {
-	            mainView = _react2.default.createElement(_alist2.default, { link: this.state.boardLink, top: this.state.listHeight, clickEvt: this.handleArticleClick });
+	            mainView = _react2.default.createElement(_alist2.default, { link: this.state.boardLink, pc: this.pageCount, top: this.state.listHeight, clickEvt: this.handleArticleClick });
 	            leftIcon = _react2.default.createElement(
 	                _iconButton2.default,
 	                { onTouchTap: this.handleBackClick },
@@ -35576,44 +35578,56 @@
 	    displayName: 'BoardList',
 
 	    //custom function
+	    theUrl: "",
 	    recordCurrentHeight: function recordCurrentHeight() {
-	        return (0, _jquery2.default)("body").scrollTop();
+	        return this.state.pageCount;
 	    },
-	    getInitialState: function getInitialState() {
-	        return {
-	            articles: []
-	        };
+	    getPrevious: function getPrevious() {
+	        var count = this.state.pageCount;
+	        if (count > 0) {
+	            count = count - 1;
+	            this.setState({ "pageCount": count });
+	            this.updateArticle();
+	        }
 	    },
-	    componentDidMount: function componentDidMount() {
-	        var link = encodeURIComponent(this.props.link);
-	        var pageCount = 0;
-	        (0, _jquery2.default)(document).on("scroll", (function () {
-	            if ((0, _jquery2.default)(window).scrollTop() == (0, _jquery2.default)(document).height() - (0, _jquery2.default)(window).height()) {
-	                console.log("hit bottom!!!");
-	                pageCount++;
-	                _jquery2.default.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, (function (result) {
-	                    if (this.isMounted()) {
-	                        var a = this.state.articles;
-	                        var theNew = a.concat(result);
-	                        this.setState({ "articles": theNew });
-	                    }
-	                }).bind(this));
-	            }
-	        }).bind(this));
-	        _jquery2.default.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, (function (result) {
+	    getNext: function getNext() {
+	        var count = this.state.pageCount;
+	        count = count + 1;
+	        this.setState({ "pageCount": count });
+	        this.updateArticle();
+	    },
+	    updateArticle: function updateArticle() {
+	        _jquery2.default.get("http://130.211.249.49:8080/api/articlelist/" + this.theUrl + "/" + this.state.pageCount, (function (result) {
 	            if (this.isMounted()) {
 	                this.setState({ "articles": result });
 	            }
 	        }).bind(this));
 	    },
-	    componentWillUnmount: function componentWillUnmount() {
-	        (0, _jquery2.default)(document).off('scroll');
+	    getInitialState: function getInitialState() {
+	        return {
+	            articles: [],
+	            pageCount: this.props.pc
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var link = encodeURIComponent(this.props.link);
+	        this.theUrl = link;
+	        //console.log("re-render~~~~");
+	        //console.log(this.theUrl);
+	        this.updateArticle();
 	    },
 	    render: function render() {
 	        var that = this;
+	        var prev;
+	        if (this.state.pageCount > 0) {
+	            prev = _react2.default.createElement(_listItem2.default, { primaryText: "Previous", onTouchTap: this.getPrevious, style: { "color": "yellow" } });
+	        } else {
+	            prev = null;
+	        }
 	        return _react2.default.createElement(
 	            _list2.default,
 	            null,
+	            prev,
 	            this.state.articles.map(function (a, i) {
 	                return _react2.default.createElement(_listItem2.default, {
 	                    primaryText: a.title,
@@ -35621,6 +35635,12 @@
 	                    onTouchTap: that.props.clickEvt.bind(null, a.link, that.recordCurrentHeight()),
 	                    key: i
 	                });
+	            }),
+	            _react2.default.createElement(_listItem2.default, {
+	                primaryText: "Next",
+	                onTouchTap: this.getNext,
+	                key: 999,
+	                style: { "color": "yellow" }
 	            })
 	        );
 	    }
