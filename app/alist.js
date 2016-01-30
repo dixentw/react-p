@@ -7,46 +7,59 @@ import $ from 'jquery';
 
 var BoardList = React.createClass({
     //custom function
+    theUrl : "",
     recordCurrentHeight : function(){
-        return $("body").scrollTop();
+        return this.state.pageCount;
     },
-    getInitialState: function() {
-        return {
-            articles : [],
-        };
+    getPrevious : function(){
+        var count = this.state.pageCount;
+        if(count > 0){
+            count = count -1;
+            this.setState({"pageCount": count});
+            this.updateArticle();
+        }
     },
-    componentDidMount : function(){
-        var link = encodeURIComponent(this.props.link);
-        var pageCount = 0;
-        $(document).on("scroll", function(){
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                console.log("hit bottom!!!");
-                pageCount++;
-                $.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, function(result) {
-                    if (this.isMounted()) {
-                        var a = this.state.articles;
-                        var theNew = a.concat(result);
-                        this.setState({"articles" : theNew});
-                    }
-                }.bind(this));
-            }
-        }.bind(this));
-        $.get("http://130.211.249.49:8080/api/articlelist/" + link + "/" + pageCount, function(result) {
+    getNext : function(){
+        var count = this.state.pageCount;
+        count = count + 1;
+        this.setState({"pageCount": count});
+        this.updateArticle();
+    },
+    updateArticle : function(){
+        $.get("http://130.211.249.49:8080/api/articlelist/" + this.theUrl + "/" + this.state.pageCount, function(result) {
             if (this.isMounted()) {
                 this.setState({"articles" : result});
             }
         }.bind(this));
     },
-    componentWillUnmount : function(){
-        $(document).off('scroll');
+    getInitialState: function() {
+        return {
+            articles : [],
+            pageCount : this.props.pc
+        };
+    },
+    componentDidMount : function(){
+        var link = encodeURIComponent(this.props.link);
+        this.theUrl = link;
+        //console.log("re-render~~~~");
+        //console.log(this.theUrl);
+        this.updateArticle();
     },
     render: function() {
         var that = this;
+        var prev;
+        if(this.state.pageCount > 0){
+            prev = <ListItem primaryText={"Previous"} onTouchTap={this.getPrevious} style={{"color" : "yellow"}}/>
+        }else{
+            prev = null;
+        }
         return (
             <List>
+            {prev}
             {
+
                 this.state.articles.map(function(a, i){
-                    return (
+                    return(
                         <ListItem
                             primaryText={a.title}
                             secondaryText={a.author}
@@ -54,9 +67,14 @@ var BoardList = React.createClass({
                             key={i}
                         />
                     )
-
                 })
             }
+            <ListItem
+                primaryText={"Next"}
+                onTouchTap={this.getNext}
+                key={999}
+                style={{"color" : "yellow"}}
+            />
             </List>
         );
     }

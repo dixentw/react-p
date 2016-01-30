@@ -28,6 +28,7 @@ const style = {
 };
 
 var Main = React.createClass({
+    pageCount : 0,
     childContextTypes: {
         muiTheme: React.PropTypes.object,
     },
@@ -69,6 +70,7 @@ var Main = React.createClass({
     },
     handleArticleClick : function(ext, curHeight){
         console.log(curHeight);
+        this.pageCount = curHeight;
         this.setState({"currentView" : "article", "articleLink" : ext, "listHeight" : curHeight});
     },
     render: function() {
@@ -77,7 +79,7 @@ var Main = React.createClass({
             mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
             leftIcon = null;
         }else if(this.state.currentView=="board"){
-            mainView = <ArticleList link={this.state.boardLink} top={this.state.listHeight} clickEvt={this.handleArticleClick} />
+            mainView = <ArticleList link={this.state.boardLink} pc={this.pageCount} top={this.state.listHeight} clickEvt={this.handleArticleClick} />
             leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
         }else if(this.state.currentView=="article"){
             mainView = <Article link={this.state.articleLink} />
