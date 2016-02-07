@@ -3,7 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
+import Colors from 'material-ui/lib/styles/colors';
 import $ from 'jquery';
+import config from './config.js'
 
 var BoardList = React.createClass({
     //custom function
@@ -13,20 +15,22 @@ var BoardList = React.createClass({
     },
     getPrevious : function(){
         var count = this.state.pageCount;
-        if(count > 0){
+        if(count > 1){
             count = count -1;
-            this.setState({"pageCount": count});
-            this.updateArticle();
+            this.setState({"pageCount": count}, ()=>{
+                this.updateArticle();
+            });
         }
     },
     getNext : function(){
         var count = this.state.pageCount;
         count = count + 1;
-        this.setState({"pageCount": count});
-        this.updateArticle();
+        this.setState({"pageCount": count}, ()=> {
+            this.updateArticle();
+        });
     },
     updateArticle : function(){
-        $.get("http://130.211.249.49:8080/api/articlelist/" + this.theUrl + "/" + this.state.pageCount, function(result) {
+        $.get(config.getUrl() + "/api/articlelist/" + this.theUrl + "/" + this.state.pageCount, function(result) {
             if (this.isMounted()) {
                 this.setState({"articles" : result});
             }
@@ -41,15 +45,15 @@ var BoardList = React.createClass({
     componentDidMount : function(){
         var link = encodeURIComponent(this.props.link);
         this.theUrl = link;
-        //console.log("re-render~~~~");
-        //console.log(this.theUrl);
         this.updateArticle();
     },
     render: function() {
         var that = this;
         var prev;
-        if(this.state.pageCount > 0){
-            prev = <ListItem primaryText={"Previous"} onTouchTap={this.getPrevious} style={{"color" : "yellow"}}/>
+        if(this.state.pageCount > 1){
+            prev = <ListItem primaryText={"Previous"}
+                onTouchTap={this.getPrevious}
+                style={{"backgroundColor" : Colors.cyan600}}/>
         }else{
             prev = null;
         }
@@ -73,7 +77,7 @@ var BoardList = React.createClass({
                 primaryText={"Next"}
                 onTouchTap={this.getNext}
                 key={999}
-                style={{"color" : "yellow"}}
+                style={{"backgroundColor" : Colors.cyan600}}
             />
             </List>
         );

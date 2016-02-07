@@ -16,19 +16,12 @@ import $ from 'jquery';
 
 // custom component
 import Boards from './boards.js';
-import ArticleList from './alist.js'
-import Article from './article.js'
-
-const style = {
-  marginRight: 32,
-  marginBottom: 32,
-  float: 'left',
-  position: 'relative',
-  zIndex: 0,
-};
+import ArticleList from './alist.js';
+import Article from './article.js';
+import config from './config.js';
 
 var Main = React.createClass({
-    pageCount : 0,
+    pageCount : 1,
     childContextTypes: {
         muiTheme: React.PropTypes.object,
     },
@@ -52,7 +45,7 @@ var Main = React.createClass({
         this.setState({muiTheme: newMuiTheme});
     },
     componentDidMount: function() {
-        $.get("http://130.211.249.49:8080/api/hotboard", function(result) {
+        $.get(config.getUrl() + "/api/hotboard", function(result) {
             if (this.isMounted()) {
                 this.setState({"ids" : result});
             }

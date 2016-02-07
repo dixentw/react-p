@@ -3,14 +3,6 @@ import React from 'react';
 import Paper from 'material-ui/lib/paper';
 import $ from 'jquery';
 
-const style = {
-  height: 100,
-  width: 100,
-  margin: 20,
-  textAlign: 'center',
-  display: 'inline-block',
-};
-
 var Article = React.createClass({
     getInitialState: function() {
         return {
@@ -24,10 +16,13 @@ var Article = React.createClass({
             }
         }.bind(this));
     },
+    handleDClick : function(){
+        console.log("on double click");
+    },
     render: function() {
         var output = {"__html" : this.state.article.rawData}
         return (
-            <div dangerouslySetInnerHTML={output} />
+            <div id="main-container" ondblclick={this.handleDClick} dangerouslySetInnerHTML={output}/>
         );
     }
 });

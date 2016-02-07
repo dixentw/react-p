@@ -11,8 +11,9 @@ var BoardList = React.createClass({
                 this.props.ids.map(function(a, i){
                     return (
                         <ListItem
+                            style={{secondaryText : {"fontSize" : 44, "color" : "red"}}}
                             primaryText={a.boardName}
-                            secondaryText={a.hotness}
+                            secondaryText={a.hotness + "   |   " + a.boardCap}
                             onTouchTap={that.props.clickEvt.bind(null, a.link)}
                             key={i}
                         />
