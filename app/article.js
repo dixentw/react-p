@@ -7,12 +7,12 @@ import config from './config.js'
 var Article = React.createClass({
     getInitialState: function() {
         return {
-            article : {}
+            article : {},
+            mmodal : false
         };
     },
     componentDidMount : function(){
         console.log(this.state);
-        this.fetch(this.props.link);
     },
     render: function() {
         var output = {"__html" : this.state.article.rawData}
