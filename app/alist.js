@@ -6,6 +6,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Colors from 'material-ui/lib/styles/colors';
 import $ from 'jquery';
 import config from './config.js'
+import Article from './article.js';
 
 var BoardList = React.createClass({
     //custom function
@@ -39,7 +40,9 @@ var BoardList = React.createClass({
     getInitialState: function() {
         return {
             articles : [],
-            pageCount : this.props.pc
+            pageCount : this.props.pc,
+            openArticle : false,
+            aLink: 'avcde'
         };
     },
     componentDidMount : function(){
@@ -47,8 +50,23 @@ var BoardList = React.createClass({
         this.theUrl = link;
         this.updateArticle();
     },
+    openDialog : function(link){
+        console.log("ffffff");
+        this.setState({
+            'openArticle' : true,
+            'aLink' : link
+        });
+    },
+    closeDialog : function(){
+        console.log("kkkkkk");
+        this.setState({
+            'openArticle' : false,
+            'aLink' : 'abc'
+        });
+    },
     render: function() {
         var that = this;
+        //prepare prev
         var prev;
         if(this.state.pageCount > 1){
             prev = <ListItem primaryText={"Previous"}
@@ -57,22 +75,27 @@ var BoardList = React.createClass({
         }else{
             prev = null;
         }
+        var props = {
+            link : this.state.aLink,
+            open : this.state.openArticle,
+            close :this.closeDialog
+        }
         return (
             <List>
             {prev}
             {
-
                 this.state.articles.map(function(a, i){
                     return(
                         <ListItem
                             primaryText={a.title}
                             secondaryText={a.author}
-                            onTouchTap={that.props.clickEvt.bind(null, a.link, that.recordCurrentHeight())}
+                            onTouchTap={that.openDialog.bind(null, a.link, that.recordCurrentHeight())}
                             key={i}
                         />
                     )
                 })
             }
+            <Article {...props}></Article>
             <ListItem
                 primaryText={"Next"}
                 onTouchTap={this.getNext}
