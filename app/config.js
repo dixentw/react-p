@@ -2,7 +2,7 @@
 var Config = {
     mode : "prd",
     localUrl : "http://localhost:3000",
-    gceUrl : "http://130.211.249.49:8080",
+    gceUrl : "http://130.211.249.49:9200",
     getUrl : function(){
         if(this.mode=="dev"){
             return this.localUrl;

@@ -1,7 +1,8 @@
 'use strict';
 import React from 'react';
-import Paper from 'material-ui/lib/paper';
+import Dialog from 'material-ui/lib/dialog';
 import $ from 'jquery';
+import config from './config.js'
 
 var Article = React.createClass({
     getInitialState: function() {
@@ -10,19 +11,26 @@ var Article = React.createClass({
         };
     },
     componentDidMount : function(){
-        $.get("http://130.211.249.49:8080/api/article/" + encodeURIComponent(this.props.link), function(result) {
-            if (this.isMounted()) {
-                this.setState({"article" : result});
-            }
-        }.bind(this));
-    },
-    handleDClick : function(){
-        console.log("on double click");
+        console.log(this.state);
+        this.fetch(this.props.link);
     },
     render: function() {
         var output = {"__html" : this.state.article.rawData}
+        console.log("triggered!!");
+        //this.fetch(this.props.link);
         return (
-            <div id="main-container" ondblclick={this.handleDClick} dangerouslySetInnerHTML={output}/>
+            <Dialog
+                title="Dialog With Actions"
+                open={this.props.open}
+                onRequestClose={this.props.close}
+            >
+                fkowefkowkfowek
+                fwkoefkw
+                wkefowe
+                kwofe
+                <div id="main-container" ondblclick={this.props.close} dangerouslySetInnerHTML={output}/>
+            </Dialog>
+
         );
     }
 });
