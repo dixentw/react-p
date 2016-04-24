@@ -4,33 +4,23 @@ import Dialog from 'material-ui/lib/dialog';
 import $ from 'jquery';
 import config from './config.js'
 
+const customContentStyle = {
+  width: '100%',
+  maxWidth: 'none'
+};
+
 var Article = React.createClass({
-    getInitialState: function() {
-        return {
-            article : {},
-            mmodal : false
-        };
-    },
-    componentDidMount : function(){
-        console.log(this.state);
-    },
     render: function() {
-        var output = {"__html" : this.state.article.rawData}
-        console.log("triggered!!");
-        //this.fetch(this.props.link);
+        var output = {"__html" : this.props.article.rawData}
         return (
             <Dialog
-                title="Dialog With Actions"
                 open={this.props.open}
+                autoScrollBodyContent = {true}
                 onRequestClose={this.props.close}
+                contentStyle = {customContentStyle}
             >
-                fkowefkowkfowek
-                fwkoefkw
-                wkefowe
-                kwofe
                 <div id="main-container" ondblclick={this.props.close} dangerouslySetInnerHTML={output}/>
             </Dialog>
-
         );
     }
 });

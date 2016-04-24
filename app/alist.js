@@ -9,8 +9,15 @@ import config from './config.js'
 import Article from './article.js';
 
 var BoardList = React.createClass({
-    //custom function
     theUrl : "",
+    getInitialState: function() {
+        return {
+            articles : [],
+            article : {},
+            pageCount : this.props.pc,
+            openArticle : false
+        };
+    },
     recordCurrentHeight : function(){
         return this.state.pageCount;
     },
@@ -37,31 +44,21 @@ var BoardList = React.createClass({
             }
         }.bind(this));
     },
-    getInitialState: function() {
-        return {
-            articles : [],
-            pageCount : this.props.pc,
-            openArticle : false,
-            aLink: 'avcde'
-        };
-    },
+
     componentDidMount : function(){
         var link = encodeURIComponent(this.props.link);
         this.theUrl = link;
         this.updateArticle();
     },
     openDialog : function(link){
-        console.log("ffffff");
+        this.fetch(link);
         this.setState({
-            'openArticle' : true,
-            'aLink' : link
+            'openArticle' : true
         });
     },
     closeDialog : function(){
-        console.log("kkkkkk");
         this.setState({
-            'openArticle' : false,
-            'aLink' : 'abc'
+            'openArticle' : false
         });
     },
     fetch : function(link){
@@ -83,8 +80,9 @@ var BoardList = React.createClass({
             prev = null;
         }
         var props = {
-            link : this.state.aLink,
+            link : this.state.article,
             open : this.state.openArticle,
+            article : this.state.article,
             close :this.closeDialog
         }
         return (
