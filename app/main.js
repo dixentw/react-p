@@ -61,11 +61,6 @@ var Main = React.createClass({
     handleBoardClick : function(ext){
         this.setState({"currentView" : "board", "boardLink" : ext});
     },
-    handleArticleClick : function(ext, curHeight){
-        console.log(curHeight);
-        this.pageCount = curHeight;
-        this.setState({"currentView" : "article", "articleLink" : ext, "listHeight" : curHeight});
-    },
     render: function() {
         var mainView, leftIcon;
         if(this.state.currentView=="hot"){
@@ -73,9 +68,6 @@ var Main = React.createClass({
             leftIcon = null;
         }else if(this.state.currentView=="board"){
             mainView = <ArticleList link={this.state.boardLink} pc={this.pageCount} top={this.state.listHeight} clickEvt={this.handleArticleClick} />
-            leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
-        }else if(this.state.currentView=="article"){
-            mainView = <Article link={this.state.articleLink} />
             leftIcon = <IconButton onTouchTap={this.handleBackClick}><BackArrow /></IconButton>
         }
         return (
