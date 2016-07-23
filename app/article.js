@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import Dialog from 'material-ui/lib/dialog';
+import Dialog from 'material-ui/Dialog';
 import $ from 'jquery';
 import config from './config.js'
 

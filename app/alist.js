@@ -1,9 +1,8 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Colors from 'material-ui/lib/styles/colors';
+import {List,ListItem} from 'material-ui';
+import Colors from 'material-ui/styles/colors';
 import $ from 'jquery';
 import config from './config.js'
 import Article from './article.js';
@@ -69,13 +68,12 @@ var BoardList = React.createClass({
         }.bind(this));
     },
     render: function() {
+        console.log("alist");
         var that = this;
         //prepare prev
         var prev;
         if(this.state.pageCount > 1){
-            prev = <ListItem primaryText={"Previous"}
-                onTouchTap={this.getPrevious}
-                style={{"backgroundColor" : Colors.cyan600}}/>
+            prev = <ListItem primaryText={"Previous"} onTouchTap={this.getPrevious}/>
         }else{
             prev = null;
         }
@@ -105,7 +103,6 @@ var BoardList = React.createClass({
                 primaryText={"Next"}
                 onTouchTap={this.getNext}
                 key={999}
-                style={{"backgroundColor" : Colors.cyan600}}
             />
             </List>
         );

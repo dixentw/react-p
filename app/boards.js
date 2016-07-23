@@ -1,6 +1,5 @@
 import React from 'react';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
+import {List, ListItem} from 'material-ui';
 
 var BoardList = React.createClass({
     render: function() {
@@ -11,7 +10,6 @@ var BoardList = React.createClass({
                 this.props.ids.map(function(a, i){
                     return (
                         <ListItem
-                            style={{secondaryText : {"fontSize" : 44, "color" : "red"}}}
                             primaryText={a.boardName}
                             secondaryText={a.hotness + "   |   " + a.boardCap}
                             onTouchTap={that.props.clickEvt.bind(null, a.link)}
