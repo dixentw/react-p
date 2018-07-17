@@ -2,45 +2,45 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {lightBaseTheme, MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
-import {AppBar, IconButton, FontIcon} from 'material-ui';
-import injectTapEventPlugin from 'react-tap-event-plugin/src/injectTapEventPlugin';
-injectTapEventPlugin();
-import $ from 'jquery';
-// custom component
-import Boards from './boards.js';
-import ArticleList from './alist.js';
-import Article from './article.js';
-import config from './config.js';
 
-var Main = React.createClass({
-    pageCount : 1,
-    getInitialState: function() {
+import {lightBaseTheme, MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
+import {AppBar, IconButton, FontIcon, Toolbar, Typography} from '@material-ui/core';
+// custom component
+//import Boards from './boards.js';
+//import ArticleList from './alist.js';
+  
+const theme = createMuiTheme({});
+
+class Main extends React.Component {
+     /*
+    getInitialState() {
         return {
             ids : [],
             currentView : "hot", // {"hot", "board", "article"}
             listHeight : 0
         };
-    },
-    componentDidMount: function() {
+    }
+    componentDidMount() {
         $.get(config.getUrl() + "/api/hotboard", function(result) {
             if (this.isMounted()) {
                 this.setState({"ids" : result});
             }
         }.bind(this));
-    },
-    handleBackClick : function(){
+    }
+
+    handleBackClick(){
         if(this.state.currentView=="article"){
             this.setState({"currentView": "board"});
         }else if(this.state.currentView=="board"){
             this.setState({"currentView": "hot"});
         }
-    },
-    handleBoardClick : function(ext){
+    }
+
+    handleBoardClick(ext){
         this.setState({"currentView" : "board", "boardLink" : ext});
-    },
-    render: function() {
-        var mainView, leftIcon;
+    }
+
+    var mainView, leftIcon;
         if(this.state.currentView=="hot"){
             mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
             leftIcon = null;
@@ -48,19 +48,25 @@ var Main = React.createClass({
             mainView = <ArticleList link={this.state.boardLink} pc={1} clickEvt={this.handleArticleClick} />
             leftIcon = <IconButton onTouchTap={this.handleBackClick}><FontIcon className="muidocs-icon-action-home" /></IconButton>
         }
+    
+    */
+
+    render() {
+        const classes = {
+            flex: {flexGrow: 1}
+        }
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
             <div>
-                <AppBar
-                    iconElementLeft={leftIcon}
-                    title="PTT browser"
-                    showMenuIconButton={leftIcon!=null}
-                />
-                {mainView}
+                <MuiThemeProvider theme={theme}>
+                    <AppBar position="static" color="default">
+                        <Toolbar>
+                            <Typography variant="title" color="inherit">PTT browser</Typography>
+                        </Toolbar>
+                    </AppBar>
+                </MuiThemeProvider>
             </div>
-            </MuiThemeProvider>
         );
     }
-});
+}
 
 ReactDOM.render(<Main />, document.getElementById('mainAAA'));

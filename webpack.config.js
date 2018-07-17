@@ -1,21 +1,21 @@
-var path = require('path');
 
-var config = {
+const path = require('path');
+
+module.exports = {
+    mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
     entry: './app/main.js',
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js'
     },
     module: {
-        loaders: [{
+        rules: [{
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: "babel",
-            query: {
-                presets:['react','es2015']
+            loader: "babel-loader",
+            options: {
+                presets: ['env', 'react']
             }
         }]
     }
 };
-
-module.exports = config;
