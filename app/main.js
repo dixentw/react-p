@@ -2,14 +2,24 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-import {lightBaseTheme, MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
-import {AppBar, IconButton, FontIcon, Toolbar, Typography} from '@material-ui/core';
+import { withStyles} from '@material-ui/core/styles'
+import { AppBar, IconButton, FontIcon, Toolbar, Typography, Tabs,Tab} from '@material-ui/core';
+
+import {Favorite, Whatshot, Search} from '@material-ui/icons';
+
 // custom component
 //import Boards from './boards.js';
 //import ArticleList from './alist.js';
-  
-const theme = createMuiTheme({});
+
+const style = the => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: the.palette.background.paper,
+  },
+});
 
 class Main extends React.Component {
      /*
@@ -52,21 +62,25 @@ class Main extends React.Component {
     */
 
     render() {
-        const classes = {
-            flex: {flexGrow: 1}
-        }
+        const { classes } = this.props;
         return (
-            <div>
-                <MuiThemeProvider theme={theme}>
-                    <AppBar position="static" color="default">
-                        <Toolbar>
-                            <Typography variant="title" color="inherit">PTT browser</Typography>
-                        </Toolbar>
-                    </AppBar>
-                </MuiThemeProvider>
+            <div className={classes.root}>
+                <AppBar position="static" color="default">
+                    <Tabs  indicatorColor="primary" textColor="primary" fullWidth>
+                        <Tab icon={<Whatshot />} />
+                        <Tab icon={<Favorite />} />
+                        <Tab icon={<Search />} />
+                    </Tabs>
+                </AppBar>
             </div>
         );
     }
 }
 
-ReactDOM.render(<Main />, document.getElementById('mainAAA'));
+Main.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+const A = withStyles(style)(Main) 
+
+ReactDOM.render(< A/>, document.getElementById('mainAAA'));

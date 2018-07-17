@@ -4,11 +4,13 @@
   "description": "",
   "dependencies": {
     "@material-ui/core": "^1.4.0",
+    "@material-ui/icons": "^1.1.0",
     "babel-core": "*",
     "babel-loader": "*",
     "babel-preset-env": "*",
     "babel-preset-react": "*",
     "jquery": "*",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "webpack": "*"
