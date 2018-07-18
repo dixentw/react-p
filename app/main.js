@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {Favorite, Whatshot, Search} from '@material-ui/icons';
 
 // custom component
-//import Boards from './boards.js';
+import Boards from './boards.js';
 //import ArticleList from './alist.js';
 
 const style = the => ({
@@ -121,7 +121,7 @@ class Main extends React.Component {
                         </Menu>
                     </Toolbar>
                 </AppBar>
-                <h2>{ currTab }</h2>
+                <Boards board={currTab} />
             </div>
         );
     }

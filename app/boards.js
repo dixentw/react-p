@@ -1,26 +1,52 @@
 import React from 'react';
-import {List, ListItem} from 'material-ui';
+import {List, ListItem, ListItemText} from '@material-ui/core';
 
-var BoardList = React.createClass({
-    render: function() {
-        var that = this;
+const hotListUrl = `https://www.ptt.cc/bbs/hotboards.html`
+
+const fetcher = (board) => {
+    if (board === 'hot') {
+        return fetch(hotListUrl).then((resp) => {
+            console.log(resp);
+            console.log(resp.text());
+        });
+    } else {
+        console.log('should implement get favorite boards from localCache');
+    }
+}
+
+/*
+    listItem consist with 
+    {
+        boardName
+        boardCaption
+        hotness
+    }
+*/
+
+class BoardList extends React.Component  {
+    constructor(props) {
+        super(props)
+        this.state = {
+            list: []
+        };
+    }
+    componentDidMount() {
+        fetcher(this.props.bind).then((output) => {
+            this.setState({
+                list: ['newList']
+            });
+        });
+    }
+
+    render() {
         return (
             <List>
-            {
-                this.props.ids.map(function(a, i){
-                    return (
-                        <ListItem
-                            primaryText={a.boardName}
-                            secondaryText={a.hotness + "   |   " + a.boardCap}
-                            onTouchTap={that.props.clickEvt.bind(null, a.link)}
-                            key={i}
-                        />
-                    )
-                })
-            }
+                <ListItem button>
+                    <ListItemText primary='it shows first board' />
+                </ListItem>
             </List>
         );
     }
-});
+}
 
 module.exports = BoardList;
