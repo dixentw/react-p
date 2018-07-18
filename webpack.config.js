@@ -17,5 +17,13 @@ module.exports = {
                 presets: ['env', 'react']
             }
         }]
+    },
+    serve: {
+        port: 8082,
+        open: true,
+        content: 'build',
+        proxy: {
+            "/api": "http://localhost:3000/"
+        }
     }
 };

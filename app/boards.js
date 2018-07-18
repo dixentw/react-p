@@ -1,13 +1,12 @@
 import React from 'react';
 import {List, ListItem, ListItemText} from '@material-ui/core';
 
-const hotListUrl = `https://www.ptt.cc/bbs/hotboards.html`
+const hotListUrl = `/api/hot`
 
 const fetcher = (board) => {
     if (board === 'hot') {
         return fetch(hotListUrl).then((resp) => {
             console.log(resp);
-            console.log(resp.text());
         });
     } else {
         console.log('should implement get favorite boards from localCache');
@@ -31,7 +30,7 @@ class BoardList extends React.Component  {
         };
     }
     componentDidMount() {
-        fetcher(this.props.bind).then((output) => {
+        fetcher(this.props.board).then((output) => {
             this.setState({
                 list: ['newList']
             });
