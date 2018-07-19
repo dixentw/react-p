@@ -1,7 +1,7 @@
 Mobile first PTT browser
 ===========
 
-React with material-ui framework.
+Material Wrapper for PTT
 
 [demo](http://dixentw.github.io/ptt/)
 
@@ -9,7 +9,6 @@ React with material-ui framework.
 
 $npm install
 $npm run dev
-
 
 ### build
 $npm run build
