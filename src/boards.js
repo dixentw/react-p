@@ -24,7 +24,8 @@ class BoardList extends React.Component  {
             this.setState({
                 list: output
             });
-        });
+        })
+        .catch((e) => {console.error(e);});
     }
 
     render() {
