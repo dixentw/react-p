@@ -2,7 +2,6 @@
 
 var https = require('https');
 var cheerio = require('cheerio');
-var iconv = require('iconv-lite');
 
 module.exports = {
     fetchHotBoard : function(){
@@ -16,8 +15,7 @@ module.exports = {
         return new Promise(((resolve, reject) => {
             const httpReq = https.request(options, (outsideRes) => {
                 outsideRes.on('data', function (chunk) {
-                var buf = iconv.decode(chunk, 'big5');
-                    rawHTML += buf;
+                    rawHTML += chunk;
                 });
                 outsideRes.on('end', function(){
                     var result = [];

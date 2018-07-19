@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { withStyles} from '@material-ui/core/styles'
-import { AppBar, IconButton, Menu, 
-    Toolbar, Typography, Tabs,Tab, MenuItem} from '@material-ui/core';
+import { AppBar, IconButton, Menu,
+    Toolbar, Typography, MenuItem} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import {Favorite, Whatshot, Search} from '@material-ui/icons';
@@ -36,50 +36,6 @@ class Main extends React.Component {
             anchor: null,
         };
     }
-     /*
-    getInitialState() {
-        return {
-            ids : [],
-            currentView : "hot", // {"hot", "board", "article"}
-            listHeight : 0
-        };
-    }
-    componentDidMount() {
-        $.get(config.getUrl() + "/api/hotboard", function(result) {
-            if (this.isMounted()) {
-                this.setState({"ids" : result});
-            }
-        }.bind(this));
-    }
-
-    handleBackClick(){
-        if(this.state.currentView=="article"){
-            this.setState({"currentView": "board"});
-        }else if(this.state.currentView=="board"){
-            this.setState({"currentView": "hot"});
-        }
-    }
-
-    handleBoardClick(ext){
-        this.setState({"currentView" : "board", "boardLink" : ext});
-    }
-
-    var mainView, leftIcon;
-        if(this.state.currentView=="hot"){
-            mainView = <Boards ids={this.state.ids} clickEvt={this.handleBoardClick}/>
-            leftIcon = null;
-        }else if(this.state.currentView=="board"){
-            mainView = <ArticleList link={this.state.boardLink} pc={1} clickEvt={this.handleArticleClick} />
-            leftIcon = <IconButton onTouchTap={this.handleBackClick}><FontIcon className="muidocs-icon-action-home" /></IconButton>
-        }
-    
-<Tabs centered value={this.state.currTab} indicatorColor='primary'>
-                        <Tab icon={<Whatshot />} value='hot'/>
-                        <Tab icon={<Favorite />} value='favorite'/>
-                        <Tab icon={<Search />} value='search'/>
-                    </Tabs>
-
-    */
     handleMenu (event) {
         this.setState({ anchor: event.currentTarget });
     }

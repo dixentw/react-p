@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
     mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
+    devtool: 'source-map',
     entry: './src/main.js',
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -18,10 +19,10 @@ module.exports = {
             }
         }]
     },
-    serve: {
+    devServer: {
         port: 8082,
         open: true,
-        content: 'build',
+        contentBase: 'build',
         proxy: {
             "/api": "http://localhost:3000/"
         }
