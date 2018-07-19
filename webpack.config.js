@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
     mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
-    entry: './app/main.js',
+    entry: './src/main.js',
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js'
