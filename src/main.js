@@ -15,23 +15,18 @@ import {
     HashRouter
   } from "react-router-dom";
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+    },
+});
+
 // custom component
 import Boards from './boards.js';
 import ArticleList from './alist.js';
 import Article from './article.js';
-
-const style = the => ({
-  root: {
-    flexGrow: 1,
-  },
-  flex: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-});
 
 class Main extends React.Component {
     constructor(props) {
@@ -49,18 +44,18 @@ class Main extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
         const { anchor } = this.state;
         const open = Boolean(anchor);
         return (
             <HashRouter>
-            <div className={classes.root} onScroll={this.handleScroll}>
+            <MuiThemeProvider theme={theme}>
+            <div>
                 <AppBar position='static' color='default'>
                     <Toolbar>
                         <IconButton color="inherit" aria-label="Menu" onClick={this.handleMenu.bind(this)}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="title" color="inherit" className={classes.flex}>
+                        <Typography variant="title" color="inherit">
                             PTT 瀏覽器
                         </Typography>
                         <Menu
@@ -88,16 +83,12 @@ class Main extends React.Component {
                 <Route path="/alist/:url" component={ArticleList}/>
                 <Route path="/article/:url" component={Article}/>
             </div>
+            </MuiThemeProvider>
             </HashRouter> 
         );
     }
 }
 //<Boards board={currTab} />
 
-Main.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-const A = withStyles(style)(Main) 
-
-ReactDOM.render(< A/>, document.getElementById('app'));
+//export default A;
+ReactDOM.render(< Main/>, document.getElementById('app'));

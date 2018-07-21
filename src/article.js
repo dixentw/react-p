@@ -41,10 +41,9 @@ class Article extends React.Component {
         }
         console.log(output);
         return (
-            <div dangerouslySetInnerHTML={output} />
+            <div id="main-container" dangerouslySetInnerHTML={output} />
         );
     }
 }
 
-//{/*<div id="main-container" dangerouslySetInnerHTML={output}/>*/}
 export default Article;

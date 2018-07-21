@@ -1,7 +1,6 @@
 import React from 'react';
 import {List, ListItem, ListItemText} from '@material-ui/core';
 
-
 const hotListUrl = `/api/hot`
 
 const fetcher = (board) => {
@@ -15,6 +14,13 @@ const fetcher = (board) => {
         });
     }
 }
+
+const styles = {
+    //color: 'rgba(200, 200, 200, 0.8)',
+    primary: {
+        color: 'white',
+    }
+};
 
 class BoardList extends React.Component  {
     constructor(props) {
@@ -34,6 +40,7 @@ class BoardList extends React.Component  {
     }
     
     componentWillReceiveProps() {
+        console.log('board list received');
         fetcher(this.props.match.params.from).then((output) => {
             this.setState({
                 list: output
@@ -51,7 +58,8 @@ class BoardList extends React.Component  {
         const entries = this.state.list.map((l) => {
             return (
                 <ListItem button>
-                    <ListItemText 
+                    <ListItemText
+                        classes = {styles}
                         primary={l.boardCap} 
                         secondary={`${l.boardName} - ${l.hotness}`} 
                         onClick={this.handleClick.bind(this, l.link)}

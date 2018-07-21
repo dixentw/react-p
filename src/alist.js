@@ -38,6 +38,7 @@ class ArticleList extends React.Component {
 
     componentDidMount() {
         window.addEventListener("scroll", this.handleScroll.bind(this));
+        this.fetchArticle(this.props.match.params.url);
     }
     
     componentWillUnmount() {
@@ -70,7 +71,7 @@ class ArticleList extends React.Component {
                 <ListItem button>
                     <ListItemText 
                         primary={l.title} 
-                        secondary={`${l.nrec} - ${l.author} - ${this.state.next}`} 
+                        secondary={`${l.nrec} - ${l.author}`} 
                         onClick={this.handleClick.bind(this, l.link)}
                     />
                 </ListItem>
