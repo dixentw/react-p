@@ -1,28 +1,50 @@
 'use strict';
 import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import $ from 'jquery';
-import config from './config.js'
 
-const customContentStyle = {
-  width: '100%',
-  maxWidth: 'none'
-};
+const articleBaseUrl = `/api/article`;
 
-var Article = React.createClass({
-    render: function() {
-        var output = {"__html" : this.props.article.rawData}
+class Article extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            text: ''
+        };
+    }
+
+    componentWillReceiveProps() {
+        fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
+        .then( resp => resp.json() )
+        .then((output) => {
+            console.log(output);
+            this.setState({
+                text: output.rawData
+            });
+        })
+        .catch((e) => {console.error(e);});
+    }
+
+    componentDidMount() {
+        fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
+        .then( resp => resp.json() )
+        .then((output) => {
+            console.log(output);
+            this.setState({
+                text: output.rawData
+            });
+        })
+        .catch((e) => {console.error(e);});
+    }
+
+    render() {
+        const output = {
+            '__html' : this.state.text
+        }
+        console.log(output);
         return (
-            <Dialog
-                open={this.props.open}
-                autoScrollBodyContent = {true}
-                onRequestClose={this.props.close}
-                contentStyle = {customContentStyle}
-            >
-                <div id="main-container" ondblclick={this.props.close} dangerouslySetInnerHTML={output}/>
-            </Dialog>
+            <div dangerouslySetInnerHTML={output} />
         );
     }
-});
+}
 
-module.exports = Article;
+//{/*<div id="main-container" dangerouslySetInnerHTML={output}/>*/}
+export default Article;
