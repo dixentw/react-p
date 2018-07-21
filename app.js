@@ -2,7 +2,9 @@ var express = require('express');
 var app = express();
 var fetcher = require('./backend/fetch.js')
 
-app.get('/', function (req, res) {
+app.use(express.static('build'));
+
+app.get('/hello', function (req, res) {
     res.send('Hello World!');
 });
 

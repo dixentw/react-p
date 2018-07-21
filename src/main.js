@@ -2,13 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-
-import { withStyles} from '@material-ui/core/styles'
 import { AppBar, IconButton, Menu,
     Toolbar, Typography, MenuItem} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import {Favorite, Whatshot, Search} from '@material-ui/icons';
 import {
     Route,
     NavLink,
