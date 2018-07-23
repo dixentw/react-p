@@ -19,8 +19,9 @@ class ArticleList extends React.Component {
         if (url === this.state.currUrl) {
             return;
         }
+        console.log(`trigger load!!! got url: ${url}, state url: ${this.state.currUrl}`);
         fetch(`${alistBaseUrl}/${url}`)
-        .then( resp => resp.json() ) 
+        .then( resp => resp.json() )
         .then((result) => {
             const aggr = [].concat(this.state.list, result.data);
             this.setState({
@@ -34,16 +35,18 @@ class ArticleList extends React.Component {
 
     componentWillReceiveProps() {
         console.log('got ittttt!!!');
-        //this.fetchArticle(this.props.match.params.url);
     }
 
     componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll.bind(this));
+        console.log('mount');
+        this.scrollHandler = this.handleScroll.bind(this);
+        window.addEventListener("scroll", this.scrollHandler , false);
         this.fetchArticle(this.props.match.params.url);
     }
-    
+
     componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll.bind(this));
+        console.log('umount');
+        window.removeEventListener("scroll", this.scrollHandler, false);
     }
 
     handleScroll () {
@@ -53,14 +56,14 @@ class ArticleList extends React.Component {
         const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
         const windowBottom = windowHeight + window.pageYOffset;
         if (windowBottom >= docHeight) {
-            console.log('fefefefef ->' + this.state.next);
-            if (!this.loading) {
+            console.log('------------->' + this.state.next);
+            if (!this.loading && this.state.next) {
                 this.loading = true;
                 this.fetchArticle(this.state.next);
             }
-        } 
+        }
     }
-    
+
     handleClick(link) {
         console.log(link);
         this.props.history.push(`/article/${encodeURIComponent(link)}`)
@@ -85,7 +88,5 @@ class ArticleList extends React.Component {
         )
     }
 }
-
-//{/*onClick={this.handleClick.bind(this, l.link)}*/}
 
 export default ArticleList;

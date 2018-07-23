@@ -1,6 +1,25 @@
-var express = require('express');
-var app = express();
-var fetcher = require('./backend/fetch.js')
+const express = require('express');
+const app = express();
+const fetcher = require('./backend/fetch.js')
+const mcache = require('memory-cache');
+
+const cache = (duration) => {
+    return (req, res, next) => {
+        let key = '__express__' + req.originalUrl || req.url;
+        let cacheBody = mcache.get(key);
+        if (cacheBody) {
+            res.send(cacheBody);
+            return;
+        } else {
+            res.originSend = res.send;
+            res.send = (body) => {
+                mcache.put(key, body, duration * 1000);
+                res.originSend(body);
+            }
+            next();
+        }
+    }
+}
 
 app.use(express.static('build'));
 
@@ -14,7 +33,7 @@ app.get('/api/hot', (req, res) => {
     });
 });
 
-app.get('/api/alist/:url', (req, res) => {
+app.get('/api/alist/:url', cache(120) ,(req, res) => {
     fetcher.fetchArticleList(req.params.url).then((val)=>{
         res.status(200).json(val);
     });
