@@ -91,7 +91,7 @@ class Main extends React.Component {
                 </AppBar>
                 <Route path="/board/:from" component={Boards}/>
                 <Route path="/search" component={Boards}/>
-                <Route path="/alist/:url" component={ (props) => <ArticleList {...props}/>}/>
+                <Route path="/alist/:url" render={ (props) => <ArticleList {...props}/>}/>
                 <Route path="/article/:url" component={Article}/>
             </div>
             </MuiThemeProvider>
