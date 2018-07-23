@@ -27,7 +27,6 @@ class Article extends React.Component {
         fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
         .then( resp => resp.json() )
         .then((output) => {
-            console.log(output);
             this.setState({
                 text: output.rawData
             });
@@ -39,7 +38,6 @@ class Article extends React.Component {
         const output = {
             '__html' : this.state.text
         }
-        console.log(output);
         return (
             <div id="main-container" dangerouslySetInnerHTML={output} />
         );

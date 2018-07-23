@@ -8,7 +8,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {
     Route,
     NavLink,
-    HashRouter
+    HashRouter,
+    withRouter
   } from "react-router-dom";
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -32,9 +33,11 @@ class Main extends React.Component {
             anchor: null,
         };
     }
+
     handleMenu (event) {
         this.setState({ anchor: event.currentTarget });
     }
+
     handleClose () {
         this.setState({ anchor: null });
     }
@@ -42,6 +45,35 @@ class Main extends React.Component {
     render() {
         const { anchor } = this.state;
         const open = Boolean(anchor);
+        const Menus = withRouter(({history}) => (
+            <Menu
+                id="menu-appbar"
+                anchorEl={anchor}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={open}
+                onClose={this.handleClose.bind(this)}
+            >
+                <MenuItem onClick={()=> {
+                    history.push('/board/hot');
+                    this.handleClose();
+                }}>熱門看板</MenuItem>
+                <MenuItem onClick={()=> {
+                    history.push('/board/favorite');
+                    this.handleClose();
+                }}>我的最愛</MenuItem>
+                <MenuItem onClick={()=> {
+                    history.push('/search');
+                    this.handleClose();
+                }}>搜尋看板</MenuItem>
+            </Menu>
+        ));
         return (
             <HashRouter>
             <MuiThemeProvider theme={theme}>
@@ -54,37 +86,18 @@ class Main extends React.Component {
                         <Typography variant="title" color="inherit">
                             PTT 瀏覽器
                         </Typography>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchor}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={this.handleClose.bind(this)}
-                            >
-                            <MenuItem ><NavLink to="/board/hot">熱門看板</NavLink></MenuItem>
-                            <MenuItem ><NavLink to="/board/favorite">我的最愛</NavLink></MenuItem>
-                            <MenuItem ><NavLink to="/search">搜尋看板</NavLink></MenuItem>
-                        </Menu>
+                        <Menus />
                     </Toolbar>
                 </AppBar>
                 <Route path="/board/:from" component={Boards}/>
                 <Route path="/search" component={Boards}/>
-                <Route path="/alist/:url" component={ArticleList}/>
+                <Route path="/alist/:url" component={ (props) => <ArticleList {...props}/>}/>
                 <Route path="/article/:url" component={Article}/>
             </div>
             </MuiThemeProvider>
-            </HashRouter> 
+            </HashRouter>
         );
     }
 }
-//<Boards board={currTab} />
 
-//export default A;
 ReactDOM.render(< Main/>, document.getElementById('app'));

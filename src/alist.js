@@ -33,7 +33,8 @@ class ArticleList extends React.Component {
     }
 
     componentWillReceiveProps() {
-        this.fetchArticle(this.props.match.params.url);
+        console.log('got ittttt!!!');
+        //this.fetchArticle(this.props.match.params.url);
     }
 
     componentDidMount() {
@@ -77,8 +78,6 @@ class ArticleList extends React.Component {
                 </ListItem>
             );
         });
-        const nextUrl = this.state.next;
-        console.log(nextUrl);
         return (
             <List>
                 {entries}

@@ -15,13 +15,6 @@ const fetcher = (board) => {
     }
 }
 
-const styles = {
-    //color: 'rgba(200, 200, 200, 0.8)',
-    primary: {
-        color: 'white',
-    }
-};
-
 class BoardList extends React.Component  {
     constructor(props) {
         super(props)
@@ -29,7 +22,7 @@ class BoardList extends React.Component  {
             list: []
         };
     }
-    
+
     componentDidMount() {
         fetcher(this.props.match.params.from).then((output) => {
             this.setState({
@@ -38,9 +31,8 @@ class BoardList extends React.Component  {
         })
         .catch((e) => {console.error(e);});
     }
-    
+
     componentWillReceiveProps() {
-        console.log('board list received');
         fetcher(this.props.match.params.from).then((output) => {
             this.setState({
                 list: output
@@ -59,9 +51,8 @@ class BoardList extends React.Component  {
             return (
                 <ListItem button>
                     <ListItemText
-                        classes = {styles}
-                        primary={l.boardCap} 
-                        secondary={`${l.boardName} - ${l.hotness}`} 
+                        primary={l.boardCap}
+                        secondary={`${l.boardName} - ${l.hotness}`}
                         onClick={this.handleClick.bind(this, l.link)}
                     />
                 </ListItem>
