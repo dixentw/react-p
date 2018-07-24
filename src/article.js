@@ -1,7 +1,13 @@
 'use strict';
 import React from 'react';
+import Swipeable from 'react-swipeable'
 
 const articleBaseUrl = `/api/article`;
+
+
+const Transition = (props) => {
+  return <Slide direction="up" {...props} />;
+}
 
 class Article extends React.Component {
     constructor(props) {
@@ -33,12 +39,18 @@ class Article extends React.Component {
         .catch((e) => {console.error(e);});
     }
 
+    handleSwiping() {
+        console.log(`swipped!!!`);
+    }
+
     render() {
         const output = {
             '__html' : this.state.text
         }
         return (
-            <div id="main-container" dangerouslySetInnerHTML={output} />
+            <Swipeable onSwipingRight={this.handleSwiping}>
+                <div id="main-container" dangerouslySetInnerHTML={output} />
+            </Swipeable>
         );
     }
 }

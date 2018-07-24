@@ -2,7 +2,13 @@
 import React from 'react';
 import {List, ListItem, ListItemText} from '@material-ui/core';
 
+import Article from '.article';
+
 const alistBaseUrl = `/api/alist`
+
+const Transition = (props) => {
+  return <Slide direction="up" {...props} />;
+}
 
 class ArticleList extends React.Component {
     constructor(props) {
@@ -31,10 +37,6 @@ class ArticleList extends React.Component {
             });
             this.loading = false;
         })
-    }
-
-    componentWillReceiveProps() {
-        console.log('got ittttt!!!');
     }
 
     componentDidMount() {
@@ -73,18 +75,28 @@ class ArticleList extends React.Component {
         const entries = this.state.list.map((l) => {
             return (
                 <ListItem button>
-                    <ListItemText 
-                        primary={l.title} 
-                        secondary={`${l.nrec} - ${l.author}`} 
+                    <ListItemText
+                        primary={l.title}
+                        secondary={`${l.nrec} - ${l.author}`}
                         onClick={this.handleClick.bind(this, l.link)}
                     />
                 </ListItem>
             );
         });
         return (
-            <List>
-                {entries}
-            </List>
+            <div>
+                <List>
+                    {entries}
+                </List>
+                <Dialog
+                      fullScreen
+                      open={this.state.open}
+                      onClose={this.handleClose}
+                      TransitionComponent={Transition}
+                >
+                    <Article url={this.state.currArticle}/>
+                </Dialog>
+            </div>
         )
     }
 }
