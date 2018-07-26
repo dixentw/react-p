@@ -1,13 +1,14 @@
 'use strict';
 import React from 'react';
-import {List, ListItem, ListItemText} from '@material-ui/core';
+import {List, ListItem, ListItemText, Dialog, Slide} from '@material-ui/core';
+import Swipeable from 'react-swipeable'
 
-import Article from '.article';
+import Article from './article';
 
-const alistBaseUrl = `/api/alist`
+const alistBaseUrl = '/api/alist'
 
 const Transition = (props) => {
-  return <Slide direction="up" {...props} />;
+  return <Slide direction="left" {...props} />;
 }
 
 class ArticleList extends React.Component {
@@ -17,6 +18,8 @@ class ArticleList extends React.Component {
             list: [],
             next : '',
             currUrl: '',
+            currArticle: '',
+            open: false,
         };
         this.loading = false;
     }
@@ -67,8 +70,17 @@ class ArticleList extends React.Component {
     }
 
     handleClick(link) {
-        console.log(link);
-        this.props.history.push(`/article/${encodeURIComponent(link)}`)
+        this.setState({
+            open: true,
+            currArticle: encodeURIComponent(link),
+        });
+    }
+
+    handleSwiping() {
+        console.log(`swipped!!!`);
+        this.setState({
+            open: false,
+        });
     }
 
     render() {
@@ -94,7 +106,9 @@ class ArticleList extends React.Component {
                       onClose={this.handleClose}
                       TransitionComponent={Transition}
                 >
-                    <Article url={this.state.currArticle}/>
+                    <Swipeable onSwipingRight={this.handleSwiping.bind(this)}>
+                        <Article url={this.state.currArticle}/>
+                    </Swipeable>
                 </Dialog>
             </div>
         )

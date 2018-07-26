@@ -18,7 +18,7 @@ class Article extends React.Component {
     }
 
     componentWillReceiveProps() {
-        fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
+        fetch(`${articleBaseUrl}/${this.props.url}`)
         .then( resp => resp.json() )
         .then((output) => {
             this.setState({
@@ -29,7 +29,7 @@ class Article extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
+        fetch(`${articleBaseUrl}/${this.props.url}`)
         .then( resp => resp.json() )
         .then((output) => {
             this.setState({
@@ -39,18 +39,13 @@ class Article extends React.Component {
         .catch((e) => {console.error(e);});
     }
 
-    handleSwiping() {
-        console.log(`swipped!!!`);
-    }
 
     render() {
         const output = {
             '__html' : this.state.text
         }
         return (
-            <Swipeable onSwipingRight={this.handleSwiping}>
-                <div id="main-container" dangerouslySetInnerHTML={output} />
-            </Swipeable>
+            <div id="main-container" dangerouslySetInnerHTML={output} />
         );
     }
 }
