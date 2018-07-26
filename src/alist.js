@@ -1,8 +1,15 @@
 'use strict';
 import React from 'react';
-import {List, ListItem, ListItemText} from '@material-ui/core';
+import {List, ListItem, ListItemText, Dialog, Slide} from '@material-ui/core';
+import Swipeable from 'react-swipeable'
 
-const alistBaseUrl = `/api/alist`
+import Article from './article';
+
+const alistBaseUrl = '/api/alist'
+
+const Transition = (props) => {
+  return <Slide direction="left" {...props} />;
+}
 
 class ArticleList extends React.Component {
     constructor(props) {
@@ -11,6 +18,8 @@ class ArticleList extends React.Component {
             list: [],
             next : '',
             currUrl: '',
+            currArticle: '',
+            open: false,
         };
         this.loading = false;
     }
@@ -31,10 +40,6 @@ class ArticleList extends React.Component {
             });
             this.loading = false;
         })
-    }
-
-    componentWillReceiveProps() {
-        console.log('got ittttt!!!');
     }
 
     componentDidMount() {
@@ -65,26 +70,47 @@ class ArticleList extends React.Component {
     }
 
     handleClick(link) {
-        console.log(link);
-        this.props.history.push(`/article/${encodeURIComponent(link)}`)
+        this.setState({
+            open: true,
+            currArticle: encodeURIComponent(link),
+        });
+    }
+
+    handleSwiping() {
+        console.log(`swipped!!!`);
+        this.setState({
+            open: false,
+        });
     }
 
     render() {
         const entries = this.state.list.map((l) => {
             return (
                 <ListItem button>
-                    <ListItemText 
-                        primary={l.title} 
-                        secondary={`${l.nrec} - ${l.author}`} 
+                    <ListItemText
+                        primary={l.title}
+                        secondary={`${l.nrec} - ${l.author}`}
                         onClick={this.handleClick.bind(this, l.link)}
                     />
                 </ListItem>
             );
         });
         return (
-            <List>
-                {entries}
-            </List>
+            <div>
+                <List>
+                    {entries}
+                </List>
+                <Dialog
+                      fullScreen
+                      open={this.state.open}
+                      onClose={this.handleClose}
+                      TransitionComponent={Transition}
+                >
+                    <Swipeable onSwipingRight={this.handleSwiping.bind(this)}>
+                        <Article url={this.state.currArticle}/>
+                    </Swipeable>
+                </Dialog>
+            </div>
         )
     }
 }

@@ -46,7 +46,7 @@ app.get('/api/article/:url', (req, res) => {
 });
 
 app.get('*', function(req, res){
-    res.send('what???', 404);
+    res.status(404).send('what???');
 });
 
 const PORT = process.env.PORT || 3000;

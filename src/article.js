@@ -1,7 +1,13 @@
 'use strict';
 import React from 'react';
+import Swipeable from 'react-swipeable'
 
 const articleBaseUrl = `/api/article`;
+
+
+const Transition = (props) => {
+  return <Slide direction="up" {...props} />;
+}
 
 class Article extends React.Component {
     constructor(props) {
@@ -12,7 +18,7 @@ class Article extends React.Component {
     }
 
     componentWillReceiveProps() {
-        fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
+        fetch(`${articleBaseUrl}/${this.props.url}`)
         .then( resp => resp.json() )
         .then((output) => {
             this.setState({
@@ -23,7 +29,7 @@ class Article extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`${articleBaseUrl}/${this.props.match.params.url}`)
+        fetch(`${articleBaseUrl}/${this.props.url}`)
         .then( resp => resp.json() )
         .then((output) => {
             this.setState({
@@ -32,6 +38,7 @@ class Article extends React.Component {
         })
         .catch((e) => {console.error(e);});
     }
+
 
     render() {
         const output = {
